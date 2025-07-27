@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: cleanarch
+    
+  datasource:
+    url: jdbc:mysql://localhost:3306/eventdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  jackson:
+    default-property-inclusion: non_null
+    mapper:
+      default_view_inclusion: on
+    deserialization:
+      fail-on-unknown-properties: off
+      read-unknown-enum-values-as-null: on
+
+  messages:
+    basename: messages, ValidationMessages
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    
+  cloud:
+    compatibility-verifier:
+      enabled: false
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+      
+logging:
+  level:
+    com.learning.ddd.cleanarch: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+    org.springframework.web.servlet.DispatcherServlet: TRACE
+    
+server:
+  port: 8080
+  
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 5000
+        read-timeout: 5000
+        logger-level: basic 

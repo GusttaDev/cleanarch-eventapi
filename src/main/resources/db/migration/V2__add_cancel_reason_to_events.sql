@@ -1,0 +1,1 @@
+ALTER TABLE events ADD COLUMN cancel_reason VARCHAR(1000) NULL AFTER status; 
